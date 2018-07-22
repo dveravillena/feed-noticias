@@ -5,3 +5,7 @@ RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
 
 RewriteRule ^test/(\w+)*$ index.php?action=test&test=$1
+RewriteRule ^feed/new$ index.php?action=create
+RewriteRule ^feed/save$ index.php?action=save
+RewriteRule ^feed/(\d+)*$ index.php?action=view&id=$1
+RewriteRule ^feed/delete/(\d+)*$ index.php?action=delete&id=$1
