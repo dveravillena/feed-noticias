@@ -144,5 +144,23 @@ class Feed {
 
 	}
 
+  /**
+  * Función que elimina todos los feed almacenados en la base de datos
+  */
+	public static function deleteAll(){
+
+    //Intenta actulizar información en la base de datos. Si ocurre un error deriva en la vista de error indicando el error.
+    try {
+  		$db = Database::getConnect(); //Conexión a la base de datos
+  		$delete=$db->query('DELETE FROM feeds'); //Elimina todos los feeds de la base de datos
+  		$db = null; //Cerrar conexión de la base de datos
+    } catch (PDOException $e) {
+      $message = $e->getMessage(); //Recoge el mensaje de error
+			require_once('application/views/error.php'); //Carga la vista que muestra el mensaje de error
+			die(); //Detiene el proceso de la app
+    }
+
+	}
+
 }
 ?>

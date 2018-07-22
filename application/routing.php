@@ -31,7 +31,7 @@ switch ($action) {
     require_once('application/models/feed.php'); //Modelo Feed
     require_once('application/database/connect.php'); //Conexión a la base de datos
     $controller = new FeedController(); //Crea un nuevo controlador
-    $controller->listFeeds(); //Función encargada de gestionar el listado de los feed
+    $controller->listFeeds(false); //Función encargada de gestionar el listado de los feed
 
     break;
   case 'create':
@@ -78,6 +78,15 @@ switch ($action) {
       $message = 'No se encuentra el id del producto a borrar';
       require_once('application/views/error.php'); //Carga la vista encargada de mostrar el error
     }
+
+    break;
+  case 'refresh': //Actualiza los feed desde las fuentes y muestra la lista actualizada
+
+    require_once('application/controllers/feed_controller.php'); //Controlador encargado de gestionar el modelo Feed
+    require_once('application/models/feed.php'); //Modelo Feed
+    require_once('application/database/connect.php'); //Conexión a la base de datos
+    $controller = new FeedController(); //Crea un nuevo controlador
+    $controller->listFeeds(true); //Función encargada de gestionar el listado de los feed
 
     break;
   default:

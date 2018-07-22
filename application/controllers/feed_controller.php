@@ -7,15 +7,26 @@ class FeedController {
   /**
   * Función que obtiene todos los feeds de la base de datos con la fecha de hoy
   * y los muestra en una vista
+  * @param Boolean $update indica si debe borrar los feeds antiguos
   */
-  public function listFeeds(){
+  public function listFeeds($update){
 
+    if ($update) {
+			Feed::deleteAll();
+		}
   	$feeds = Feed::getAll(); //Recupera todos los feed de la base de datos con la fecha de hoy
-    //Comprueba si se han obtenido feeds desde la base de datos
-    if (!$feeds) {
-  		$feeds = 'No hay feeds para mostrar';
-  	}
-    require_once('application/views/feed/feedlist.php');  //Carga la vista encargada de mostrar el listado de feeds
+    /*
+      Comprueba si hay feeds para mostrar. Si no hay feeds utiliza el controlador que gestiona el
+      servicio de obtención de feeds para obtener feeds
+    */
+    if ($feeds) {
+			require_once('application/views/feed/feedlist.php'); //Carga la vista encargada de mostrar el listado de feeds
+		} else {
+			require_once('application/services/feed_service.php'); //Servicio encargado de obtener feeds nuevos de las fuentes
+			require_once('application/controllers/controller.php'); //Controlador encargado de gestionar el servicio de lectura de feeds
+			$controller = new Controller(); //Crea un nuevo controlador
+			$controller->loadFeeds(); //Función encargada de gestionar la lectura de nuevos feeds
+		}
   }
 
   /**
