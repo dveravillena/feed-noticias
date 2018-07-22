@@ -41,6 +41,14 @@ class TestController {
           $message = var_dump($feeds); //Lista de Feeds recuperados
           require_once('application/views/test.php'); //Carga la vista que muestra el mensaje
           break;
+        case 'fstest':
+          require_once('application/services/feed_service.php');
+          $service = new FeedServices(); //Crea un nuevo servicio
+          $service->searchFeeds(); //Busca los ultimos feeds de los periodicos y los guarda en una lista
+          $feeds = $service->feedlist; //Lista de Feeds recogidos en la busqueda del servicio
+          $message = var_dump($feeds);
+          require_once('application/views/test.php'); //Carga la vista que muestra el mensaje
+          break;
         default:
           $message = 'No se encuentra la acción a testear';
           require_once('application/views/error.php');
